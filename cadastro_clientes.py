@@ -9,8 +9,33 @@
 clientes = []
 
 # Coletando as informações do cliente
-nome_completo = input('Digite aqui o nome do cliente: ')
-idade = input('Digite aqui a idade do cliente: ')
+while True:
+    # Inserindo nome e tornando tudo minúsculo
+    nome_completo = input("Digite aqui o nome do cliente: ").lower()
+    # Removendo espaços antes e depois e se não está vazio
+    if nome_completo.strip() == "":
+        print("Campo em branco, digite o nome do cliente.")
+    # Eliminando espaços internos e vefiicando se tem apenas letras
+    elif nome_completo.replace(" " , "").isalpha():
+        break
+    else:
+        print("Digite apenas letras para o nome do cliente.")
+
+while True:
+    # Verificando se existe erro, colocando texto onde seria apenas números
+    try:
+        # Inserindo idade do cliente
+        idade = int(input('Digite aqui a idade do cliente: '))
+        # Removendo espaços antes e depois e se não está vazio
+        if idade > 0:
+            break
+        else:
+            print('Digite apenas números maiores que zero para a idade do cliente')
+    # Retornando a mensagem
+    except ValueError:
+        print('Digite apenas números para a idade do cliente')
+
+
 telefone = input('Digite aqui o telefone do cliente: ')
 
 # Armazenando as informações em um dicionário
