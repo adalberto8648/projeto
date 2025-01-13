@@ -36,18 +36,15 @@ while True:
         print('Digite apenas números para a idade do cliente')
 
 while True:
-    # Verificando se existe erro, colocando texto onde seria apenas números
-    try:
-        # Inserindo telefone do cliente
-        telefone = input("Digite aqui o telefone do cliente: ")
-        # Fazendo contagem de número quer deve ser 11
-        if len(telefone) != 11:
-            print('O telefone deve ter 11 dígitos. Tente novamente')
-            continue # aqui é pra continuar e voltar no início
-        # Formatando o telefone
-        telefone_formatado = f"({telefone[:2]}) {telefone[2:7]}-{telefone[7:]}"
-    except ValueError:
-        print("Digite apenas números para o telefone do cliente")
+    # Inserindo telefone do cliente
+    telefone = input("Digite aqui o telefone do cliente: ")
+    # Se tiver diferente de 11 dígito ou não tem apenas números
+    if len(telefone) != 11 or not telefone.isdigit():
+        print('O telefone deve ter 11 números. Tente novamente')
+        continue # aqui é pra continuar e voltar no início
+    # Formatando o telefone
+    telefone_formatado = f"({telefone[:2]}) {telefone[2:7]}-{telefone[7:]}"
+    break
 
 # Armazenando as informações em um dicionário
 cliente = {
@@ -60,7 +57,27 @@ cliente = {
 lista_clientes_vazia.append(cliente)
 
 # Exibindo as informações do cliente cadastrado
-print('\nCliente cadastrado com sucesso')
-print(f'Nome: {cliente['Nome']}')
-print(f'Idade: {cliente["Idade"]}')
-print(f'Telefone: {cliente["Telefone"]}')
+print("\nCliente cadastrado com sucesso")
+print(f"Nome: {cliente['Nome']}")
+print(f"Idade: {cliente['Idade']}")
+print(f"Telefone: {cliente['Telefone']}")
+
+# with fechado automaticamente quando terminarmos de usá-lo
+# open abre o arquivo no modo escolhido
+# adição ("a") de append, insere dando seguência 
+with open("clientes.txt", "a") as arquivo:
+    arquivo.write(f"Nome: {cliente['Nome']}\n")
+    arquivo.write(f"Idade: {cliente['Idade']}\n")
+    arquivo.write(f"Telefone: {cliente['Telefone']}\n")
+    arquivo.write(f"-" * 20 + "\n")
+
+# with fechado automaticamente quando terminarmos de usá-lo
+# open abre o arquivo no modo escolhido
+# ("r") abre o arquivo 
+with open("clientes.txt", "r") as arquivo:
+    # Lê todas as linhas do arquivo
+    linhas = arquivo.readlines()
+    # Itera sobre as linhas
+    for linha in linhas:
+        # Exibe cada linha, removendo espaços antes e depois
+        print(linha.strip())
