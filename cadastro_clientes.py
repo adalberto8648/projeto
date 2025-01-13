@@ -1,9 +1,3 @@
-# 1. Cadastro Simples de Clientes
-# Funções básicas: Inserir, listar, e excluir clientes.
-# Dados armazenados: Uma lista simples com dicionários para cada cliente.
-# Campos: Nome, telefone e e-mail (evite validações avançadas por enquanto).
-# Desafios: Usar laços for e while com opções no menu.
-
 # ("a") adição, append, insere dados 
 # ("r") abre o arquivo padrão
 # ("w") abre o arquivo para alterar
@@ -39,21 +33,14 @@ def cadastrar_clientes():
         telefone_formatado = f"({telefone[:2]}) {telefone[2:7]}-{telefone[7:]}"
         break
 
-    # with fechado automaticamente quando terminarmos de usá-lo
-    # open abre o arquivo no modo escolhido
-    # adição ("a") de append, insere dando seguência 
     with open("clientes.txt", "a") as arquivo:
-        # escrevendo os dados no arquivo
         arquivo.write(f"Nome: {nome_completo}\n")
         arquivo.write(f"Idade: {idade}\n")
         arquivo.write(f"Telefone: {telefone_formatado}\n")
         arquivo.write(f"-" * 25 + "\n")
     print("\nCliente cadastrado com sucesso")
 
-def listar_clientes():
-    # with fechado automaticamente quando terminarmos de usá-lo
-    # open abre o arquivo no modo escolhido
-    # ("r") abre o arquivo 
+def listar_clientes(): 
     with open("clientes.txt", "r") as arquivo:
 
         linhas = arquivo.readlines()
@@ -68,24 +55,23 @@ def listar_clientes():
             print("\nNenhum cliente cadastrado.")
             print("-" * 20)
 
-while True:
-    print("\n---------- Menu ---------")
-    print("1 - Cadastrar Clientes")
-    print("2 - Listar Clientes")
-    print("3 - Sair")
-    escolha = input("\nEscolha uma opção: ")
-    print("-" * 24)
-    
-    if escolha == "1":
-        cadastrar_clientes()
+def menu_cadastro():
+    while True:
+        print("\n---------- Menu ---------")
+        print("1 - Cadastrar Clientes")
+        print("2 - Listar Clientes")
+        print("3 - Sair")
+        escolha = input("\nEscolha uma opção: ")
+        print("-" * 24)
+        
+        if escolha == "1":
+            cadastrar_clientes()
 
-    elif escolha == "2":
-        listar_clientes()
+        elif escolha == "2":
+            listar_clientes()
 
-    elif escolha == "3":
-            print("Saindo ...")
-            break
-    else:
-        print("\nOpção inválida. Tente novamente.")
-
-
+        elif escolha == "3":
+                print("Saindo ...")
+                break
+        else:
+            print("\nOpção inválida. Tente novamente.")
