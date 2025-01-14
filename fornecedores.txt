@@ -1,6 +1,0 @@
-Codigo: 1
-Nome: Mary Kay
--------------------------
-Codigo: 2
-Nome: Eudora
--------------------------

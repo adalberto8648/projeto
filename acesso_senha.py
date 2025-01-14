@@ -1,3 +1,6 @@
+import csv
+import os
+
 print("\n---- Acesso ao projeto ----\n")
 
 def acessar_projeto():
@@ -53,6 +56,10 @@ def menu_clientes():
             print("\nOpção inválida. Tente novamente.")
 
 def cadastrar_clientes():
+    if not os.path.exists("clientes.csv"):
+        with open("clientes.csv", "w", newline="") as arquivo:
+            escritor = csv.writer(arquivo)
+            escritor.writerow(["Nome", "Idade", "Telefone"])
     while True:
         # Inserindo nome e tornando tudo minúsculo
         nome_completo = input("Digite aqui o nome do cliente: ").strip()
@@ -77,15 +84,17 @@ def cadastrar_clientes():
             continue # aqui é pra continuar e voltar no início
         telefone_formatado = f"({telefone[:2]}) {telefone[2:7]}-{telefone[7:]}"
         break
-    with open("clientes.txt", "a") as arquivo:
-        arquivo.write(f"Nome: {nome_completo}\n")
-        arquivo.write(f"Idade: {idade}\n")
-        arquivo.write(f"Telefone: {telefone_formatado}\n")
-        arquivo.write(f"-" * 25 + "\n")
+    
+    # newline="": Evita que linhas em branco sejam inseridas entre os registros no CSV
+    with open("clientes.csv", "a", newline="") as arquivo:
+        # csv.writer: escrever dados no CSV
+        escritor = csv.writer(arquivo)
+        # A função writerow() grava uma linha por vez
+        escritor.writerow([nome_completo, idade, telefone_formatado])
     print("\nCliente cadastrado com sucesso")
 
 def listar_clientes(): 
-    with open("clientes.txt", "r") as arquivo:
+    with open("clientes.csv", "r") as arquivo:
         linhas = arquivo.readlines()
         if linhas:
             print("\n--- Lista de Clientes ---\n")
@@ -116,6 +125,10 @@ def menu_fornecedores():
 
 def cadastrar_fornecedores():
     while True:
+        if not os.path.exists("fornecedores.csv"):
+            with open("fornecedores.csv", "w", newline="") as arquivo:
+                escritor = csv.writer(arquivo)
+                escritor.writerow(["Codigo", "Nome"])
         codigo_fornecedor = input("Digite o código do fornecedor: ").strip()
         if not codigo_fornecedor:
             print("Campo em branco, digite o código do fornecedor.")
@@ -129,14 +142,13 @@ def cadastrar_fornecedores():
             print("Campo em branco, digite o nome do fornecedor.")
         else:
             break
-    with open("fornecedores.txt", "a") as arquivo:
-        arquivo.write(f"Codigo: {codigo_fornecedor}\n")
-        arquivo.write(f"Nome: {nome_fornecedor}\n")
-        arquivo.write(f"-" * 25 + "\n")
+    with open("fornecedores.csv", "a", newline="") as arquivo:
+        escritor = csv.writer(arquivo)
+        escritor.writerow([codigo_fornecedor, nome_fornecedor])        
     print("\nFornecedor cadastrado com sucesso")
     
 def listar_fornecedores():
-    with open("fornecedores.txt", "r") as arquivo:
+    with open("fornecedores.csv", "r") as arquivo:
         linhas = arquivo.readlines()
         if linhas:
             print("\n--Lista de Fornecedores--\n")
