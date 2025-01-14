@@ -1,16 +1,8 @@
 Nome: adalberto
-Idade: 18
+Idade: 31
 Telefone: (31) 98648-8304
 -------------------------
-Nome: ada, Idade: 18, Telefone: (31) 98648-8304
--------------------------
-Nome: adalberto, Idade: 18, Telefone: (31) 98648-8304
--------------------------
-Nome: adalberto
-Idade: 18
-Telefone: (31) 98648-8304
--------------------------
-Nome: abc
-Idade: 18
+Nome:     adalberto
+Idade: 32
 Telefone: (31) 98648-8304
 -------------------------

@@ -19,35 +19,37 @@ def acessar_projeto():
         else:
             print("Nome inválido, digite novamente.")
             continue
-    
-    print("\n------ Menu Acesso ------")
-    print("1 - Cadastro de Clientes")
-    print("2 - Números Aleatórios")
-    
-    while True:
-        escolha = input("\nEscolha uma das opções: ")
-        if escolha == "1":
-            menu_cadastro()
-        elif escolha == "2":
-            numeros()
-        else:
-            print("\nOpção inválida, tente novamente")
 
-def menu_cadastro():
     while True:
-        print("\n--------- Menu --------")
+        print("\n----- Menu Projeto -----")
+        print("1 - Clientes")
+        print("2 - Fornecedor")
+        print("3 - Produtos")
+        escolha = input("\nEscolha uma das opções: ")
+        print("-" * 24 + "\n")
+        
+        if escolha == "1":
+            menu_clientes()
+        elif escolha == "2":
+            menu_fornecedores()
+        # elif escolha == "3":
+            # menu_produtos()
+        else:
+            print("Opção inválida, tente novamente\n")
+    
+def menu_clientes():
+    while True:
+        print("\n----- Menu clientes -----")
         print("1 - Cadastrar Clientes")
         print("2 - Listar Clientes")
         print("3 - Sair")
         escolha = input("\nEscolha uma opção: ")
-        print("-" * 24)
+        print("-" * 24 + "\n")
         
         if escolha == "1":
             cadastrar_clientes()
-
         elif escolha == "2":
             listar_clientes()
-
         elif escolha == "3":
             print("Saindo ...")
             break
@@ -59,14 +61,13 @@ def cadastrar_clientes():
         # Inserindo nome e tornando tudo minúsculo
         nome_completo = input("Digite aqui o nome do cliente: ").lower()
         # Removendo espaços antes e depois e se não está vazio
-        if nome_completo.strip() == "":
+        if not nome_completo.strip():
             print("Campo em branco, digite o nome do cliente.")
         # Eliminando espaços internos e vefiicando se tem apenas letras
         elif nome_completo.replace(" " , "").isalpha():
             break
         else:
             print("Digite apenas letras para o nome do cliente.")
-
     while True:
         try:
             idade = int(input("Digite aqui a idade do cliente: "))
@@ -76,7 +77,6 @@ def cadastrar_clientes():
                 print("Digite apenas números maiores que zero para a idade do cliente")
         except ValueError:
             print('Digite apenas números para a idade do cliente')
-
     while True:
         telefone = input("Digite aqui o telefone do cliente: ")
         if len(telefone) != 11 or not telefone.isdigit():
@@ -84,7 +84,6 @@ def cadastrar_clientes():
             continue # aqui é pra continuar e voltar no início
         telefone_formatado = f"({telefone[:2]}) {telefone[2:7]}-{telefone[7:]}"
         break
-
     with open("clientes.txt", "a") as arquivo:
         arquivo.write(f"Nome: {nome_completo}\n")
         arquivo.write(f"Idade: {idade}\n")
@@ -94,26 +93,86 @@ def cadastrar_clientes():
 
 def listar_clientes(): 
     with open("clientes.txt", "r") as arquivo:
-
         linhas = arquivo.readlines()
-
         if linhas:
             print("\n--- Lista de Clientes ---\n")
-
             for linha in linhas:
-                # Exibe cada linha, removendo espaços antes e depois
                 print(linha.strip())
         else:
             print("\nNenhum cliente cadastrado.")
-            print("-" * 20)
+            print("-" * 24 + "\n")
 
-def numeros():
-    quantidade_numeros = int(input("Digite a quantidade de números: "))
+def menu_fornecedores():
+    while True:
+        print("\n----- Menu Fornecedores -----")
+        print("1 - Cadastrar Fornecedors")
+        print("2 - Listar Fornecedores")
+        print("3 - Sair")
+        escolha = input("\nEscolha uma opção: ")
 
-    aleatorio = random.randint()
+        if escolha == "1":
+            cadastrar_fornecedores()
+        elif escolha == "2":
+            listar_fornecedores()
+        elif escolha == "3":
+            print("Saindo...")
+            break
+        else:
+            print("\nOpção inválida. Tente novametne.")
+
+def cadastrar_fornecedores():
+    while True:
+        codigo_fornecedor = input("Digite o código do fornecedor: ")
+        if not codigo_fornecedor.strip():
+            print("Campo em branco, digite o código do fornecedor.")
+        elif " " in codigo_fornecedor:
+            print("O código do fornecedor não pode ter espaços.")
+        else:
+            break
+    while True:
+        nome_fornecedor = input("Digite o nome do fornecedor: ")
+        if not nome_fornecedor.strip():
+            print("Campo em branco, digite o nome do fornecedor.")
+        else:
+            break
+    with open("fornecedores.txt", "a") as arquivo:
+        arquivo.write(f"Codigo: {codigo_fornecedor}\n")
+        arquivo.write(f"Nome: {nome_fornecedor}\n")
+        arquivo.write(f"-" * 25 + "\n")
+    print("\nFornecedor cadastrado com sucesso")
+    
+def listar_fornecedores():
+    with open("fornecedores.txt", "r") as arquivo:
+        linhas = arquivo.readlines()
+        if linhas:
+            print("\n---Lista de Fornecedores ---\n")
+            for linha in linhas:
+                print(linha.strip())
+        else:
+            print("\nNenhum Fornecedor encontrado.")
+            print("-" * 24 + "\n")
+
+# def menu_produtos():
 
 
-    menor_numero = int(input("Escolha o menor número: "))
-    maior_numero = int(input("Escolha o maior número: "))
+# def cadastrar_produtos():
+
+#     while True:
+#         codigo_produto = input("Digite o código do produto: ")
+#         if codigo_produto.strip() == "":
+#             print("Campo em branco, digite o código do produto.")
+#         elif " " in codigo_produto:
+#             print("O código do produto não pode ter espaços.")
+#         else:
+#             break
+#     while True:
+#         nome_produto = input("Digite o nome do produto: ")
+#         if nome_produto.strip() == "":
+#             print("Campo em branco, digite o nome do produto.")
+#         else:
+#             break
+    
+        
+
 
 acessar_projeto()
