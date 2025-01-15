@@ -1,5 +1,6 @@
 import csv
 import os
+import main
 
 def menu_fornecedores():
     while True:
@@ -27,18 +28,15 @@ def cadastrar_fornecedores():
                 escritor = csv.writer(arquivo)
                 escritor.writerow(["Codigo", "Nome"])
         codigo_fornecedor = input("Digite o código do fornecedor: ").strip()
-        if not codigo_fornecedor:
-            print("Campo em branco, digite o código do fornecedor.")
-        elif " " in codigo_fornecedor:
-            print("O código do fornecedor não pode ter espaços.")
+        if not codigo_fornecedor or " " in codigo_fornecedor:
+            print("O código não pode ficar vazio ou ter espaços.")
         else:
             break
     while True:
         nome_fornecedor = input("Digite o nome do fornecedor: ").strip()
-        if not nome_fornecedor:
-            print("Campo em branco, digite o nome do fornecedor.")
-        else:
+        if nome_fornecedor:
             break
+        print("Campo em branco, digite o nome do fornecedor.")
     with open("fornecedores.csv", "a", newline="") as arquivo:
         escritor = csv.writer(arquivo)
         escritor.writerow([codigo_fornecedor, nome_fornecedor])        
@@ -58,3 +56,6 @@ def listar_fornecedores():
         else:
             print("\nNenhum Fornecedor encontrado.")
             print("-" * 24 + "\n")
+
+if __name__ == "__main__":
+    main.acessar_projeto()

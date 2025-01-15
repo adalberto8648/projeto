@@ -37,7 +37,8 @@ def acessar_projeto():
         else:
             print("Opção inválida, tente novamente\n")
 
-acessar_projeto()
+if __name__ == "__main__":
+    acessar_projeto()
 
 # proximos passos
 # validar se os dados já estão presentes no CSV antes de cadastrar um novo item, para evitar duplicações.

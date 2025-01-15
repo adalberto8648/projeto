@@ -1,5 +1,6 @@
 import csv
 import os
+import main
 
 def menu_produtos():
     while True:
@@ -26,18 +27,15 @@ def cadastrar_produtos():
             escritor.writerow(["Codigo", "Produto"])
     while True:
         codigo_produto = input("Digite o código do produto: ").strip()
-        if not codigo_produto:
-            print("Campo em branco, digite o código do produto.")
-        elif " " in codigo_produto:
-            print("O código do produto não pode ter espaços.")
+        if not codigo_produto or " " in codigo_produto:
+            print("O código não pode ficar vazio ou ter espaços.")
         else:
             break
     while True:
         nome_produto = input("Digite o nome do produto: ").strip()
-        if not nome_produto:
-            print("Campo em branco, digite o nome do produto.")
-        else:
+        if nome_produto:
             break
+        print("Campo em branco, digite o nome do produto.")
     with open("produtos.csv", "a", newline="") as arquivo:
         escritor = csv.writer(arquivo)
         escritor.writerow([codigo_produto, nome_produto])        
@@ -57,4 +55,6 @@ def listar_produtos():
         else:
             print("\nNenhum Produto encontrado.")
             print("-" * 24 + "\n")
-            
+
+if __name__ == "__main__":
+    main.acessar_projeto()

@@ -1,5 +1,6 @@
 import csv
 import os
+import main
 
 def menu_clientes():
     while True:
@@ -71,3 +72,6 @@ def listar_clientes():
         else:
             print("\nNenhum cliente cadastrado.")
             print("-" * 24 + "\n")
+
+if __name__ == "__main__":
+    main.acessar_projeto()
