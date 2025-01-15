@@ -45,6 +45,10 @@ def cadastrar_fornecedores():
     print("\nFornecedor cadastrado com sucesso")
     
 def listar_fornecedores():
+    if not os.path.exists("fornecedores.csv"):
+        with open("fornecedores.csv", "w", newline="") as arquivo:
+            escritor = csv.writer(arquivo)
+            escritor.writerow(["Codigo", "Nome"])
     with open("fornecedores.csv", "r") as arquivo:
         linhas = arquivo.readlines()
         if linhas:

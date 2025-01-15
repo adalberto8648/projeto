@@ -24,41 +24,44 @@ def cadastrar_clientes():
     if not os.path.exists("clientes.csv"):
         with open("clientes.csv", "w", newline="") as arquivo:
             escritor = csv.writer(arquivo)
-            escritor.writerow(["Nome", "Idade", "Telefone"])
+            escritor.writerow(["Codigo", "Nome", "Idade", "Telefone"])
     while True:
-        # Inserindo nome e tornando tudo minúsculo
-        nome_completo = input("Digite aqui o nome do cliente: ").strip()
-        if not nome_completo:
-            print("Campo em branco, digite o nome do cliente.")
-            continue
-        else:
+        codigo_cliente = input("Digite o código do cliente: ")
+        if codigo_cliente and codigo_cliente.isdigit():
             break
+        print("Para o código do cliente digite apenas números.")
+    while True:
+        nome_completo = input("Digite o nome do cliente: ").strip()
+        if nome_completo:
+            break
+        print("Campo em branco, digite o nome do cliente.")
     while True:
         try:
-            idade = int(input("Digite aqui a idade do cliente: "))
+            idade = int(input("Digite a idade do cliente: "))
             if idade > 0:
                 break
             else:
-                print("Digite apenas números maiores que zero para a idade do cliente")
+                print("Digite números maiores que zero para a idade do cliente")
         except ValueError:
             print('Digite apenas números para a idade do cliente')
     while True:
-        telefone = input("Digite aqui o telefone do cliente: ")
-        if len(telefone) != 11 or not telefone.isdigit():
-            print('O telefone deve ter 11 números. Tente novamente')
-            continue # aqui é pra continuar e voltar no início
-        telefone_formatado = f"({telefone[:2]}) {telefone[2:7]}-{telefone[7:]}"
-        break
-    
-    # newline="": Evita que linhas em branco sejam inseridas entre os registros no CSV
+        telefone = input("Digite o telefone do cliente: ")
+        if len(telefone) == 11 and telefone.isdigit():
+            telefone_formatado = f"({telefone[:2]}) {telefone[2:7]}-{telefone[7:]}"
+            break
+        print('O telefone deve ter DDD + 9 números. Ex.99999999999.')
     with open("clientes.csv", "a", newline="") as arquivo:
         # csv.writer: escrever dados no CSV
         escritor = csv.writer(arquivo)
         # A função writerow() grava uma linha por vez
-        escritor.writerow([nome_completo, idade, telefone_formatado])
+        escritor.writerow([codigo_cliente, nome_completo, idade, telefone_formatado])
     print("\nCliente cadastrado com sucesso")
 
-def listar_clientes(): 
+def listar_clientes():
+    if not os.path.exists("clientes.csv"):
+        with open("clientes.csv", "w", newline="") as arquivo:
+            escritor = csv.writer(arquivo)
+            escritor.writerow(["Codigo", "Nome", "Idade", "Telefone"])
     with open("clientes.csv", "r") as arquivo:
         linhas = arquivo.readlines()
         if linhas:

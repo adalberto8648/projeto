@@ -44,6 +44,10 @@ def cadastrar_produtos():
     print("\nProduto cadastrado com sucesso")
 
 def listar_produtos():
+    if not os.path.exists("produtos.csv"):
+        with open("produtos.csv", "w", newline="") as arquivo:
+            escritor = csv.writer(arquivo)
+            escritor.writerow(["Codigo", "Produto"])
     with open("produtos.csv", "r") as arquivo:
         linhas = arquivo.readlines()
         if linhas:

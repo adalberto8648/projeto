@@ -10,15 +10,15 @@ def acessar_projeto():
     while True:
         acesso_nome = input("Digite o nome: ")
         if acesso_nome == nome:
-            while True:
-                acesso_senha = input("Digite a senha: ")
-                if acesso_senha == senha:
-                    print("Acesso permitido.")
-                    break
-                print("Senha inválida, digite novamente.")
             break
-        else:
-            print("Nome inválido, digite novamente.")
+        print("Nome inválido, digite novamente.")
+
+    while True:
+        acesso_senha = input("Digite a senha: ")
+        if acesso_senha == senha:
+            print("Acesso permitido.")
+            break
+        print("Senha inválida, digite novamente.")
 
     while True:
         print("\n----- Menu Projeto -----")
@@ -37,7 +37,6 @@ def acessar_projeto():
         else:
             print("Opção inválida, tente novamente\n")
 
-#if __name__ == "__main__":
 acessar_projeto()
 
 # proximos passos
