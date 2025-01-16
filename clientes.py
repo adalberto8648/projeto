@@ -27,16 +27,32 @@ def cadastrar_clientes():
         with open("clientes.csv", "w", newline="") as arquivo:
             escritor = csv.writer(arquivo)
             escritor.writerow(["Codigo", "Nome", "Idade", "Telefone"])
+
     while True:
         codigo_cliente = input("Digite o código do cliente: ")
-        if codigo_cliente and codigo_cliente.isdigit():
+        if codigo_cliente.isdigit():
             break
-        print("Para o código do cliente digite apenas números.")
+        print("O código do cliente deve conter apenas números.")
+
     while True:
         nome_completo = input("Digite o nome do cliente: ").strip()
-        if nome_completo:
+
+        with open("clientes.csv", "r", newline="") as arquivo:
+            # converte cada linha em uma lista
+            conversor = csv.reader(arquivo)
+            # Listado, vai para uma variável
+            dados = list(conversor)
+
+        cliente_existe = any(cliente[1].strip().lower() == nome_completo.lower() for cliente in dados[1:])
+        
+        if cliente_existe:
+            print("Cliente já cadastrado. Digite outro nome.")
+
+        elif nome_completo:
             break
-        print("Campo em branco, digite o nome do cliente.")
+        else:
+            print("Campo em branco, digite o nome do cliente.")
+
     while True:
         try:
             idade = int(input("Digite a idade do cliente: "))
@@ -46,12 +62,14 @@ def cadastrar_clientes():
                 print("Digite números maiores que zero para a idade do cliente")
         except ValueError:
             print('Digite apenas números para a idade do cliente')
+
     while True:
         telefone = input("Digite o telefone do cliente: ")
         if len(telefone) == 11 and telefone.isdigit():
             telefone_formatado = f"({telefone[:2]}) {telefone[2:7]}-{telefone[7:]}"
             break
-        print('O telefone deve ter DDD + 9 números. Ex.99999999999.')
+        print('O telefone deve ter 11 dígitos (DDD + números). Ex.99999999999.')
+
     with open("clientes.csv", "a", newline="") as arquivo:
         # csv.writer: escrever dados no CSV
         escritor = csv.writer(arquivo)

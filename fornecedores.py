@@ -23,21 +23,24 @@ def menu_fornecedores():
             print("\nOpção inválida. Tente novamente.")
 
 def cadastrar_fornecedores():
+    if not os.path.exists("fornecedores.csv"):
+        with open("fornecedores.csv", "w", newline="") as arquivo:
+            escritor = csv.writer(arquivo)
+            escritor.writerow(["Codigo", "Nome"])
+
     while True:
-        if not os.path.exists("fornecedores.csv"):
-            with open("fornecedores.csv", "w", newline="") as arquivo:
-                escritor = csv.writer(arquivo)
-                escritor.writerow(["Codigo", "Nome"])
         codigo_fornecedor = input("Digite o código do fornecedor: ").strip()
         if not codigo_fornecedor or " " in codigo_fornecedor:
             print("O código não pode ficar vazio ou ter espaços.")
         else:
             break
+
     while True:
         nome_fornecedor = input("Digite o nome do fornecedor: ").strip()
         if nome_fornecedor:
             break
         print("Campo em branco, digite o nome do fornecedor.")
+
     with open("fornecedores.csv", "a", newline="") as arquivo:
         escritor = csv.writer(arquivo)
         escritor.writerow([codigo_fornecedor, nome_fornecedor])        

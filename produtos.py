@@ -26,17 +26,20 @@ def cadastrar_produtos():
         with open("produtos.csv", "w", newline="") as arquivo:
             escritor = csv.writer(arquivo)
             escritor.writerow(["Codigo", "Produto"])
+
     while True:
         codigo_produto = input("Digite o código do produto: ").strip()
         if not codigo_produto or " " in codigo_produto:
             print("O código não pode ficar vazio ou ter espaços.")
         else:
             break
+
     while True:
         nome_produto = input("Digite o nome do produto: ").strip()
         if nome_produto:
             break
         print("Campo em branco, digite o nome do produto.")
+        
     with open("produtos.csv", "a", newline="") as arquivo:
         escritor = csv.writer(arquivo)
         escritor.writerow([codigo_produto, nome_produto])        
