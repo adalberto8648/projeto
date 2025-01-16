@@ -1,3 +1,4 @@
+from tabulate import tabulate
 import csv
 import os
 import main
@@ -59,19 +60,30 @@ def cadastrar_clientes():
     print("\nCliente cadastrado com sucesso")
 
 def listar_clientes():
+    # Verifica se o arquivo existe
     if not os.path.exists("clientes.csv"):
-        with open("clientes.csv", "w", newline="") as arquivo:
-            escritor = csv.writer(arquivo)
-            escritor.writerow(["Codigo", "Nome", "Idade", "Telefone"])
-    with open("clientes.csv", "r") as arquivo:
-        linhas = arquivo.readlines()
-        if linhas:
-            print("\n--- Lista de Clientes ---\n")
-            for linha in linhas:
-                print(linha.strip())
-        else:
-            print("\nNenhum cliente cadastrado.")
-            print("-" * 24 + "\n")
+        print("Nenhum cliente cadastrado ainda.")
+        # Não permiti a passagem por não existir, retorna para menu
+        return
+
+    # Lê os dados do arquivo CSV
+    with open("clientes.csv", "r", newline="") as arquivo:
+        # converte cada linha em uma lista
+        conversor = csv.reader(arquivo)
+        # Listado, vai para uma variável
+        dados = list(conversor)
+
+    # Verifica se há dados além do cabeçalho
+    if len(dados) <= 1:
+        print("Nenhum cliente cadastrado ainda.")
+        return
+
+    # Exibe os dados em formato de tabela
+    print("\n--- Lista de Clientes ---\n")
+    # seleciona todos os dados da lista dados, exceto o primeiro item
+    # Usa o primeiro item da lista dados
+    # Aplica o formato de tabela
+    print(tabulate(dados[1:], headers=dados[0], tablefmt="fancy_grid"))
 
 if __name__ == "__main__":
     main.acessar_projeto()
