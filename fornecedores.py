@@ -58,7 +58,7 @@ def listar_fornecedores():
         dados = list(conversor)
 
     # Verifica se há dados além do cabeçalho
-    if len (dados) <= 1:
+    if len(dados) <= 1:
         print("Nenhum fornecedor cadastrado ainda.")
         return
     
