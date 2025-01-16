@@ -2,11 +2,15 @@ import clientes
 import fornecedores
 import produtos
 
-print("\n---- Acesso ao projeto ----\n")
-
 def acessar_projeto():
+
+    print("\n-----------------------------")
+    print("|     ACESSO AO PROJETO     |")
+    print("-----------------------------\n")
+
     nome = "adalberto"
     senha = "123"
+    
     while True:
         acesso_nome = input("Digite o nome: ")
         if acesso_nome == nome:
@@ -39,6 +43,8 @@ def acessar_projeto():
 
 if __name__ == "__main__":
     acessar_projeto()
+
+
 
 # proximos passos
 

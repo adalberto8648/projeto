@@ -29,6 +29,7 @@ def cadastrar_produtos():
 
     while True:
         codigo_produto = input("Digite o código do produto: ")
+
         if codigo_produto.isdigit():
             # verifica duplicidade no arquivo csv
             with open("produtos.csv", "r", newline="") as arquivo:
@@ -36,7 +37,9 @@ def cadastrar_produtos():
                 conversor = csv.reader(arquivo)
                 # listado, vai para uma variável
                 dados = list(conversor)
+
             codigo_existe = any(codigo[0] == codigo_produto for codigo in dados[1:])
+            
             if codigo_existe:
                 print("Código já cadastrado. Digite outro código.")
             else:

@@ -30,20 +30,37 @@ def cadastrar_clientes():
 
     while True:
         codigo_cliente = input("Digite o código do cliente: ")
+
         if codigo_cliente.isdigit():
-            break
-        print("O código do cliente deve conter apenas números.")
+            # verifica duplicidade no arquivo csv (só exibição r)
+            with open("clientes.csv", "r", newline="") as arquivo:
+                # converte cada linha em uma lista
+                conversor = csv.reader(arquivo)
+                # listado, vai para uma variável
+                dados = list(conversor)
+
+            codigo_existe = any(codigo[0] == codigo_cliente for codigo in dados[1:])
+
+            if codigo_existe:
+                print("Código já cadastrado. Digite outro código.")
+            else:
+                codigo_cliente
+                break
+        else:
+            print("O código do cliente deve conter apenas números.")
 
     while True:
         nome_completo = input("Digite o nome do cliente: ").strip()
         
-        # verifica duplicidade no arquivo csv
+        # verifica duplicidade no arquivo csv (só exibição r)
         with open("clientes.csv", "r", newline="") as arquivo:
             # converte cada linha em uma lista
             conversor = csv.reader(arquivo)
             # listado, vai para uma variável
             dados = list(conversor)
+
         cliente_existe = any(cliente[1].strip().lower() == nome_completo.lower() for cliente in dados[1:])
+
         if cliente_existe:
             print("Cliente já cadastrado. Digite outro nome.")
         elif nome_completo:
@@ -82,7 +99,7 @@ def listar_clientes():
         # Não permiti a passagem por não existir, retorna para menu
         return
 
-    # Lê os dados do arquivo CSV
+    # Lê os dados do arquivo CSV (só exibição r)
     with open("clientes.csv", "r", newline="") as arquivo:
         # converte cada linha em uma lista
         conversor = csv.reader(arquivo)
