@@ -29,17 +29,27 @@ def cadastrar_fornecedores():
             escritor.writerow(["Codigo", "Nome"])
 
     while True:
-        codigo_fornecedor = input("Digite o código do fornecedor: ").strip()
-        if not codigo_fornecedor or " " in codigo_fornecedor:
-            print("O código não pode ficar vazio ou ter espaços.")
-        else:
+        codigo_fornecedor = input("Digite o código do fornecedor: ")
+        if codigo_fornecedor.isdigit():
             break
+        print("O código do fornecedor deve conter apenas números.")
 
     while True:
         nome_fornecedor = input("Digite o nome do fornecedor: ").strip()
-        if nome_fornecedor:
+
+        # verifica duplicidade no arquivo csv
+        with open("fornecedores.csv", "r", newline="") as arquivo:
+            # converte cada linha em uma lista
+            conversor = csv.reader(arquivo)
+            # listado, vai para uma variável
+            dados = list(conversor)
+        fornecedor_existe = any(fornecedor[1].strip().lower() == nome_fornecedor.lower() for fornecedor in dados[1:])
+        if fornecedor_existe:
+            print("Fornecedor já cadastrado. Digite outro fornecedor.")
+        elif nome_fornecedor:
             break
-        print("Campo em branco, digite o nome do fornecedor.")
+        else:
+            print("Campo em branco, digite o nome do fornecedor.")
 
     with open("fornecedores.csv", "a", newline="") as arquivo:
         escritor = csv.writer(arquivo)

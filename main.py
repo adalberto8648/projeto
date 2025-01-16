@@ -41,6 +41,6 @@ if __name__ == "__main__":
     acessar_projeto()
 
 # proximos passos
-# validar se os dados já estão presentes no CSV antes de cadastrar um novo item, para evitar duplicações.
+
 # adicionar uma opção para editar um registro existente no CSV, permitindo alterar informações como nome, idade, telefone, etc.
 # Quando listar os dados, exibir os dados em formato de tabela, para ficar mais legível.

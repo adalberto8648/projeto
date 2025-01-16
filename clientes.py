@@ -36,18 +36,16 @@ def cadastrar_clientes():
 
     while True:
         nome_completo = input("Digite o nome do cliente: ").strip()
-
+        
+        # verifica duplicidade no arquivo csv
         with open("clientes.csv", "r", newline="") as arquivo:
             # converte cada linha em uma lista
             conversor = csv.reader(arquivo)
-            # Listado, vai para uma variável
+            # listado, vai para uma variável
             dados = list(conversor)
-
         cliente_existe = any(cliente[1].strip().lower() == nome_completo.lower() for cliente in dados[1:])
-        
         if cliente_existe:
             print("Cliente já cadastrado. Digite outro nome.")
-
         elif nome_completo:
             break
         else:

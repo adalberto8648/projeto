@@ -28,17 +28,29 @@ def cadastrar_produtos():
             escritor.writerow(["Codigo", "Produto"])
 
     while True:
-        codigo_produto = input("Digite o código do produto: ").strip()
-        if not codigo_produto or " " in codigo_produto:
-            print("O código não pode ficar vazio ou ter espaços.")
+        codigo_produto = input("Digite o código do produto: ")
+        if codigo_produto.isdigit():
+            # verifica duplicidade no arquivo csv
+            with open("produtos.csv", "r", newline="") as arquivo:
+                # converte cada linha em uma lista
+                conversor = csv.reader(arquivo)
+                # listado, vai para uma variável
+                dados = list(conversor)
+            codigo_existe = any(codigo[0] == codigo_produto for codigo in dados[1:])
+            if codigo_existe:
+                print("Código já cadastrado. Digite outro código.")
+            else:
+                codigo_produto
+                break
         else:
-            break
+            print("O código do produto deve conter apenas números.")
 
     while True:
         nome_produto = input("Digite o nome do produto: ").strip()
         if nome_produto:
             break
-        print("Campo em branco, digite o nome do produto.")
+        else:
+            print("Campo em branco, digite o nome do produto.")
         
     with open("produtos.csv", "a", newline="") as arquivo:
         escritor = csv.writer(arquivo)
@@ -48,12 +60,12 @@ def cadastrar_produtos():
 def listar_produtos():
     # Verifica se o arquivo existe
     if not os.path.exists("produtos.csv"):
-        print("Nenhum fornecedor cadastrado ainda.")
+        print("Nenhum produto cadastrado ainda.")
         # Não permiti a passagem por não existir, retorna para menu
         return
     
     # Lê os dados do arquivo CSV
-    with open("produtos.csv", "w", newline="") as arquivo:
+    with open("produtos.csv", "r", newline="") as arquivo:
         # converte cada linha em uma lista
         conversor = csv.reader(arquivo)
         # Listado, vai para uma variável
@@ -61,7 +73,7 @@ def listar_produtos():
 
     # Verifica se há dados além do cabeçalho
     if len(dados) <= 1:
-        print("Nenhum fornecedor cadastrado ainda.")
+        print("Nenhum produto cadastrado ainda.")
         return
     
     # Exibe os dados em formato de tabela
