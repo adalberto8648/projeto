@@ -4,9 +4,9 @@ import produtos
 
 def acessar_projeto():
 
-    print("\n-----------------------------")
-    print("|     ACESSO AO PROJETO     |")
-    print("-----------------------------\n")
+    print("\n------------------------------")
+    print("|       PROJETO LuPINK       |")
+    print("------------------------------\n")
 
     nome = "adalberto"
     senha = "123"
@@ -25,7 +25,7 @@ def acessar_projeto():
         print("Senha inválida, digite novamente.")
 
     while True:
-        print("\n----- Menu Projeto -----")
+        print("\n----- Menu LuPINK -----")
         print("1 - Clientes")
         print("2 - Fornecedor")
         print("3 - Produtos")
