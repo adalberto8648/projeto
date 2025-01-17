@@ -119,5 +119,57 @@ def listar_clientes():
     # tablefmt= - formatação da tabela
     print(tabulate(dados[1:], headers=dados[0], tablefmt="fancy_grid"))
 
+def alterar_cliente():
+    if not os.path.exists("clientes.csv"):
+        print("Nenhum cliente cadastrado ainda.")
+        return
+
+    while True:
+        selecione_codigo = input("Digite o código do cliente que deseja alterar: ")
+
+        if selecione_codigo.isdigit():
+            with open("clientes.csv", "r", newline="") as arquivo:
+                conversor = csv.reader(arquivo)
+                dados = list(conversor)
+        
+            if len(dados) <= 1:
+                print("Nenhum cliente cadastrado ainda.")
+                return
+
+            print(tabulate(dados[1:], headers=dados[0], tablefmt="fancy_grid"))
+
+            # Localiza o índice do registro com o código selecionado
+            indice = None
+            for i, linha in enumerate(dados[1:], start=1):
+                if linha[0] == selecione_codigo:
+                    indice = i
+                    break
+
+            # Código não encontrado
+            if indice is None:
+                print("Código não encontrado.")
+                return
+            
+            # solicite o novo nome para o cliente
+            novo_nome = input("Digite o novo nome para o cliente: ").strip()
+            if not novo_nome:
+                print("Campo em branco, digite o nome do cliente.")
+                return
+            
+            # atualiza o dado na matriz
+            dados[indice][1] = novo_nome
+
+            # reescreve o arquivo com os dados atualizados
+            with open("clientes.csv", "w", newline="") as arquivo:
+                escritor = csv.writer(arquivo)
+                escritor.writerows(dados)
+
+            print("Nome alterado com sucesso.")
+            break
+        else:
+            print("O código do cliente deve conter apenas números.")            
+
 if __name__ == "__main__":
     main.acessar_projeto()
+
+    
