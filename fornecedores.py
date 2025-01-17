@@ -8,7 +8,7 @@ def menu_fornecedores():
         print("\n--- Menu Fornecedores ---")
         print("1 - Cadastrar Fornecedors")
         print("2 - Listar Fornecedores")
-        print("3 - Menu Projeto")
+        print("3 - Menu LuPINK")
         escolha = input("\nEscolha uma opção: ")
         print("-" * 24 + "\n")
 
@@ -17,7 +17,7 @@ def menu_fornecedores():
         elif escolha == "2":
             listar_fornecedores()
         elif escolha == "3":
-            print("Acessando -> Menu Projeto ...")
+            print("Acessando -> Menu LuPINK ...")
             break
         else:
             print("\nOpção inválida. Tente novamente.")
@@ -32,11 +32,8 @@ def cadastrar_fornecedores():
         codigo_fornecedor = input("Digite o código do fornecedor: ")
 
         if codigo_fornecedor.isdigit():
-            # verifica duplicidade no arquivo csv (só exibição r)
             with open("fornecedores.csv", "r", newline="") as arquivo:
-                # converte cada linha em uma lista
                 conversor = csv.reader(arquivo)
-                # listado, vai para uma variável
                 dados = list(conversor)
 
             codigo_existe = any(codigo[0] == codigo_fornecedor for codigo in dados[1:])
@@ -52,11 +49,8 @@ def cadastrar_fornecedores():
     while True:
         nome_fornecedor = input("Digite o nome do fornecedor: ").strip()
 
-        # verifica duplicidade no arquivo csv
         with open("fornecedores.csv", "r", newline="") as arquivo:
-            # converte cada linha em uma lista
             conversor = csv.reader(arquivo)
-            # listado, vai para uma variável
             dados = list(conversor)
 
         fornecedor_existe = any(fornecedor[1].strip().lower() == nome_fornecedor.lower() for fornecedor in dados[1:])
@@ -74,29 +68,19 @@ def cadastrar_fornecedores():
     print("\nFornecedor cadastrado com sucesso")
     
 def listar_fornecedores():
-    # Verifica se o arquivo existe
     if not os.path.exists("fornecedores.csv"):
         print("Nenhum fornecedor cadastrado ainda.")
-        # Não permiti a passagem por não existir, retorna para menu
         return
 
-    # Lê os dados do arquivo CSV
     with open("fornecedores.csv", "r", newline="") as arquivo:
-        # converte cada linha em uma lista
         conversor = csv.reader(arquivo)
-        # Listado, vai para uma variável
         dados = list(conversor)
 
-    # Verifica se há dados além do cabeçalho
     if len(dados) <= 1:
         print("Nenhum fornecedor cadastrado ainda.")
         return
     
-    # Exibe os dados em formato de tabela
     print("\n--Lista de Fornecedores--\n")
-    # seleciona todos os dados da lista dados, exceto o primeiro item
-    # Usa o primeiro item da lista dados
-    # Aplica o formato de tabela
     print(tabulate(dados[1:], headers=dados[0], tablefmt="fancy_grid"))
        
 if __name__ == "__main__":

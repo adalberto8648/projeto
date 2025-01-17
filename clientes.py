@@ -23,12 +23,15 @@ def menu_clientes():
             print("\nOpção inválida. Tente novamente.")
 
 def cadastrar_clientes():
+
+    # se não existe o arquivo, vai criar
     if not os.path.exists("clientes.csv"):
 
+        # with open com w - vai criar o arquivo
         # r - só exibição
         # w - criação o usubistituição do arquivo csv
         # a - adiciona dados
-        # newline = Elimina a duplicidade de linha em branco no final
+        # newline = elimina a duplicidade de linha em branco no final
         with open("clientes.csv", "w", newline="") as arquivo:
             # writer - escrever dados no CSV
             escritor = csv.writer(arquivo)
@@ -38,6 +41,7 @@ def cadastrar_clientes():
     while True:
         codigo_cliente = input("Digite o código do cliente: ")
 
+        # se codigo_cliente tem só número
         if codigo_cliente.isdigit():
             with open("clientes.csv", "r", newline="") as arquivo:
                 # converte cada linha em uma lista
@@ -102,12 +106,12 @@ def listar_clientes():
     with open("clientes.csv", "r", newline="") as arquivo:
         conversor = csv.reader(arquivo)
         dados = list(conversor)
+
     # len - conta quantas linhas inclusive cabeçalho
     if len(dados) <= 1:
         print("Nenhum cliente cadastrado ainda.")
         return
 
-    # Exibe os dados em formato de tabela
     print("\n--- Lista de Clientes ---\n")
 
     # dados[1:] - seleciona todos os dados da lista dados, começando da segunda linha
