@@ -91,6 +91,42 @@ def alterar_fornecedores():
         print("Nenhum fornecedor cadastrado ainda.")
         return
     
+    while True:
+        codigo_digitado = input("Digite o código do fornecedor que deseja alterar: ")
+
+        if codigo_digitado.isdigit():
+            with open("fornecedores.csv", "r", newline="") as arquivo:
+                escritor = csv.reader(arquivo)
+                dados = list(escritor)
+            if len(dados) <= 1:
+                print("Nenhum fornecedor cadastrado ainda.")
+                return
+            
+            print(tabulate(dados[1:], headers=dados[0], tablefmt="fancy_grid" ))
+
+            nome = None
+            for linha, coluna in enumerate(dados[1:], start=1):
+                if coluna[0] == codigo_digitado:
+                    nome = linha
+                    break
+            if nome is None:
+                print("Código não encontrado.")
+                return
+            
+            novo_nome = input("Digite o novo nome para o fornecedor: ").strip()
+            if not novo_nome:
+                print("Nenhum nome foi informado. Voltando ao menu principal.")
+                return
+
+            dados[nome][1] = novo_nome
+
+            with open("fornecedores.csv", "w", newline="") as arquivo:
+                escritor = csv.writer(arquivo)
+                escritor.writerows(dados)
+            print("Nome alterado com sucesso.")
+            break
+        else:
+            print("O código do fornecedor deve conter apenas números.")
     
 if __name__ == "__main__":
     main.acessar_projeto()

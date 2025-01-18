@@ -128,13 +128,12 @@ def alterar_cliente():
         return
 
     while True:
-        digite_codigo = input("Digite o código do cliente que deseja alterar: ")
+        codigo_digitado = input("Digite o código do cliente que deseja alterar: ")
 
-        if digite_codigo.isdigit():
+        if codigo_digitado.isdigit():
             with open("clientes.csv", "r", newline="") as arquivo:
-                conversor = csv.reader(arquivo)
-                dados = list(conversor)
-        
+                escritor = csv.reader(arquivo)
+                dados = list(escritor)
             if len(dados) <= 1:
                 print("Nenhum cliente cadastrado ainda.")
                 return
@@ -147,7 +146,7 @@ def alterar_cliente():
             # enumerate - gera índice pegando os dados da 2º linha, enumerando começando de 1
             for linha, coluna in enumerate(dados[1:], start=1):
                 # se (definindo coluna 0) que é a primeira, estiver o código
-                if coluna[0] == digite_codigo:
+                if coluna[0] == codigo_digitado:
                     # manda pra variável a linha encontrada e segue
                     nome = linha
                     break
@@ -170,7 +169,6 @@ def alterar_cliente():
             with open("clientes.csv", "w", newline="") as arquivo:
                 escritor = csv.writer(arquivo)
                 escritor.writerows(dados)
-
             print("Nome alterado com sucesso.")
             break
         else:
