@@ -8,7 +8,8 @@ def menu_fornecedores():
         print("\n--- Menu Fornecedores ---")
         print("1 - Cadastrar Fornecedors")
         print("2 - Listar Fornecedores")
-        print("3 - Menu LuPINK")
+        print("3 - Alterar Fornecedores")
+        print("4 - Menu LuPINK")
         escolha = input("\nEscolha uma opção: ")
         print("-" * 24 + "\n")
 
@@ -17,6 +18,8 @@ def menu_fornecedores():
         elif escolha == "2":
             listar_fornecedores()
         elif escolha == "3":
+            alterar_fornecedores()
+        elif escolha == "4":
             print("Acessando -> Menu LuPINK ...")
             break
         else:
@@ -83,5 +86,11 @@ def listar_fornecedores():
     print("\n--Lista de Fornecedores--\n")
     print(tabulate(dados[1:], headers=dados[0], tablefmt="fancy_grid"))
        
+def alterar_fornecedores():
+    if not os.path.exists("fornecedores.csv"):
+        print("Nenhum fornecedor cadastrado ainda.")
+        return
+    
+    
 if __name__ == "__main__":
     main.acessar_projeto()

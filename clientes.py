@@ -8,7 +8,7 @@ def menu_clientes():
         print("\n----- Menu clientes -----")
         print("1 - Cadastrar Clientes")
         print("2 - Listar Clientes")
-        print("3 - Editar Clientes")
+        print("3 - Alterar Clientes")
         print("4 - Menu LuPINK")
         escolha = input("\nEscolha uma opção: ")
         print("-" * 24 + "\n")
@@ -128,9 +128,9 @@ def alterar_cliente():
         return
 
     while True:
-        selecione_codigo = input("Digite o código do cliente que deseja alterar: ")
+        digite_codigo = input("Digite o código do cliente que deseja alterar: ")
 
-        if selecione_codigo.isdigit():
+        if digite_codigo.isdigit():
             with open("clientes.csv", "r", newline="") as arquivo:
                 conversor = csv.reader(arquivo)
                 dados = list(conversor)
@@ -141,26 +141,30 @@ def alterar_cliente():
 
             print(tabulate(dados[1:], headers=dados[0], tablefmt="fancy_grid"))
 
-            # Localiza o índice do registro com o código selecionado
-            indice = None
-            for i, linha in enumerate(dados[1:], start=1):
-                if linha[0] == selecione_codigo:
-                    indice = i
+            # None - definido que não foi encontrado nome, tipo uma lista_vazia mas não é uma lista
+            nome = None
+            # for - pra cada linha, na coluna não definida ainda
+            # enumerate - gera índice pegando os dados da 2º linha, enumerando começando de 1
+            for linha, coluna in enumerate(dados[1:], start=1):
+                # se (definindo coluna 0) que é a primeira, estiver o código
+                if coluna[0] == digite_codigo:
+                    # manda pra variável a linha encontrada e segue
+                    nome = linha
                     break
-
-            # Código não encontrado
-            if indice is None:
+                
+            if nome is None:
                 print("Código não encontrado.")
                 return
             
-            # solicite o novo nome para o cliente
             novo_nome = input("Digite o novo nome para o cliente: ").strip()
             if not novo_nome:
-                print("Campo em branco, digite o nome do cliente.")
+                print("Nenhum nome foi informado. Voltando ao menu principal.")
                 return
             
             # atualiza o dado na matriz
-            dados[indice][1] = novo_nome
+            # dados[nome] - foi determinado anteriormente quando encontramos o nome na linha
+            # [1] - refere-se à 2° coluna e pega o novo nome e coloca no lugar
+            dados[nome][1] = novo_nome
 
             # reescreve o arquivo com os dados atualizados
             with open("clientes.csv", "w", newline="") as arquivo:
