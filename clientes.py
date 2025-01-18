@@ -8,7 +8,8 @@ def menu_clientes():
         print("\n----- Menu clientes -----")
         print("1 - Cadastrar Clientes")
         print("2 - Listar Clientes")
-        print("3 - Menu LuPINK")
+        print("3 - Editar Clientes")
+        print("4 - Menu LuPINK")
         escolha = input("\nEscolha uma opção: ")
         print("-" * 24 + "\n")
         
@@ -17,6 +18,8 @@ def menu_clientes():
         elif escolha == "2":
             listar_clientes()
         elif escolha == "3":
+            alterar_cliente()
+        elif escolha == "4":
             print("Acessando -> Menu LuPINK ...")
             break
         else:
