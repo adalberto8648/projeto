@@ -9,7 +9,7 @@ def menu_fornecedores():
         print("1 - Cadastrar Fornecedors")
         print("2 - Listar Fornecedores")
         print("3 - Alterar Fornecedores")
-        print("4 - Menu LuPINK")
+        print("4 - Menu PROJETO")
         escolha = input("\nEscolha uma opção: ")
         print("-" * 24 + "\n")
 
@@ -20,7 +20,7 @@ def menu_fornecedores():
         elif escolha == "3":
             alterar_fornecedores()
         elif escolha == "4":
-            print("Acessando -> Menu LuPINK ...")
+            print("Acessando -> Menu PROJETO ...")
             break
         else:
             print("\nOpção inválida. Tente novamente.")

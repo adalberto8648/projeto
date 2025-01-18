@@ -8,7 +8,8 @@ def menu_produtos():
         print("\n---- Menu Produtos ----")
         print("1 - Cadastrar Produtos")
         print("2 - Listar Produtos")
-        print("3 - Menu LuPINK")
+        print("3 - Alterar Produtos")
+        print("4 - Menu PROJETO")
         escolha = input("\nEscolha uma opção: ")
 
         if escolha == "1":
@@ -16,7 +17,9 @@ def menu_produtos():
         elif escolha == "2":
             listar_produtos()
         elif escolha == "3":
-            print("Acessando -> Menu LuPINK ...")
+            alterar_produtos()
+        elif escolha == "4":
+            print("Acessando -> Menu PROJETO ...")
             break
         else:
             print("\nCódigo inválido, digite novamente")
@@ -73,6 +76,47 @@ def listar_produtos():
     
     print("\n----- Lista de produtos -----")
     print(tabulate(dados[1:], headers=dados[0], tablefmt="fancy_grid"))
+
+def alterar_produtos():
+    if not os.path.exists("produtos.csv"):
+        print("Nenhum produto cadastrado ainda.")
+        return
+    
+    while True:
+        codigo_digitado = input("Digite o código do produto que deseja alterar: ")
+
+        if codigo_digitado.isdigit():
+            with open("produtos.csv", "r", newline="") as arquivo:
+                escritor = csv.reader(arquivo)
+                dados = list(escritor)
+            if len(dados) <= 1:
+                print("Nenhum produto cadastrado ainda.")
+                return
+            
+            print(tabulate(dados[1:], headers=dados[0], tablefmt="fancy_grid"))
+
+            nome = None
+            for linha, coluna in enumerate(dados[1:], start=1):
+                if coluna[0] == codigo_digitado:
+                    nome = linha
+                    break
+            
+            if nome is None:
+                print("Código não encontrado.")
+                return
+            
+            novo_nome = input("Digite o novo nome para o produto: ").strip()
+
+            dados[nome][1] = novo_nome
+
+            with open("produtos.csv", "w", newline="") as arquivo:
+                escritor = csv.writer(arquivo)
+                escritor.writerows(dados)
+
+            print("Nome alterado com sucesso.")
+            break
+        else:
+            print("O código do produto deve conter apenas números.")
 
 if __name__ == "__main__":
     main.acessar_projeto()

@@ -4,11 +4,11 @@ import produtos
 
 def acessar_projeto():
 
-    print("\n------------------------------")
-    print("|       PROJETO LuPINK       |")
-    print("------------------------------\n")
+    print("\n------------------------ ------")
+    print("|           PROJETO           |")
+    print("-------------------------- ----\n")
 
-    nome = "adalberto"
+    nome = "senha"
     senha = "123"
     
     while True:
@@ -25,7 +25,7 @@ def acessar_projeto():
         print("Senha inválida, digite novamente.")
 
     while True:
-        print("\n----- Menu LuPINK -----")
+        print("\n----- Menu PROJETO -----")
         print("1 - Clientes")
         print("2 - Fornecedor")
         print("3 - Produtos")
@@ -48,5 +48,4 @@ if __name__ == "__main__":
 
 # proximos passos
 
-# adicionar uma opção para editar um registro existente no CSV, permitindo alterar informações como nome, idade, telefone, etc.
 # Quando listar os dados, exibir os dados em formato de tabela, para ficar mais legível.
