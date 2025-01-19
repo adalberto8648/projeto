@@ -122,6 +122,16 @@ def listar_clientes():
     # tablefmt= - formatação da tabela
     print(tabulate(dados[1:], headers=dados[0], tablefmt="fancy_grid"))
 
+def abrir_arquivo_r(nome_arquivo):
+    with open(nome_arquivo, "r", newline="") as arquivo:
+        escritor = csv.reader(arquivo)
+        dados = list(escritor)
+    if len(dados) <= 1:
+        print("Nenhum cadastro encontrado.")
+        return None
+    print(tabulate(dados[1:], headers=dados[0], tablefmt="fancy_grid"))
+    return dados
+
 def alterar_cliente():
     if not os.path.exists("clientes.csv"):
         print("Nenhum cliente cadastrado ainda.")
@@ -131,14 +141,12 @@ def alterar_cliente():
         codigo_digitado = input("Digite o código do cliente que deseja alterar: ")
 
         if codigo_digitado.isdigit():
-            with open("clientes.csv", "r", newline="") as arquivo:
-                escritor = csv.reader(arquivo)
-                dados = list(escritor)
-            if len(dados) <= 1:
+            
+            dados = abrir_arquivo_r("cliente.csv")
+            if dados is None:
                 print("Nenhum cliente cadastrado ainda.")
                 return
-
-            print(tabulate(dados[1:], headers=dados[0], tablefmt="fancy_grid"))
+            
 
             # None - definido que não foi encontrado nome, tipo uma lista_vazia mas não é uma lista
             nome = None
@@ -160,16 +168,29 @@ def alterar_cliente():
                 print("Nenhum nome foi informado. Voltando ao menu principal.")
                 return
             
+            nova_idade = input("Digite a nova idade para o cliente: ")
+            if not nova_idade.isdigit():
+                print("Nenhuma idade foi informado. Voltando ao menu principal.")
+                return
+            
+            novo_telefone = input("Digite o novo telefone para o cliente: ")
+            if not len(novo_telefone) == 11 and novo_telefone.isdigit():
+                print('O telefone deve ter 11 dígitos (DDD + números). Ex.99999999999.')
+                return
+            novo_telefone_formatado = f"({novo_telefone[:2]}) {novo_telefone[2:7]}-{novo_telefone[7:]}"
+            
             # atualiza o dado na matriz
             # dados[nome] - foi determinado anteriormente quando encontramos o nome na linha
             # [1] - refere-se à 2° coluna e pega o novo nome e coloca no lugar
             dados[nome][1] = novo_nome
+            dados[nome][2] = nova_idade
+            dados[nome][3] = novo_telefone_formatado
 
             # reescreve o arquivo com os dados atualizados
             with open("clientes.csv", "w", newline="") as arquivo:
                 escritor = csv.writer(arquivo)
                 escritor.writerows(dados)
-            print("Nome alterado com sucesso.")
+            print("Dados do cliente alterados com sucesso.")
             break
         else:
             print("O código do cliente deve conter apenas números.")            

@@ -43,9 +43,3 @@ def acessar_projeto():
 
 if __name__ == "__main__":
     acessar_projeto()
-
-
-
-# proximos passos
-
-# Quando listar os dados, exibir os dados em formato de tabela, para ficar mais legível.
