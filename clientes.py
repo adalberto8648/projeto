@@ -3,6 +3,12 @@ import csv
 import os
 import main
 
+def abrir_arquivo_r(nome_arquivo):
+    with open(nome_arquivo, "r", newline="") as arquivo:
+        conversor = csv.reader(arquivo)
+        dados = list(conversor)
+    return dados
+
 def menu_clientes():
     while True:
         print("\n----- Menu clientes -----")
@@ -27,7 +33,6 @@ def menu_clientes():
 
 def cadastrar_clientes():
 
-    # se não existe o arquivo, vai criar
     if not os.path.exists("clientes.csv"):
 
         # with open com w - vai criar o arquivo
@@ -37,20 +42,15 @@ def cadastrar_clientes():
         # newline = elimina a duplicidade de linha em branco no final
         with open("clientes.csv", "w", newline="") as arquivo:
             # writer - escrever dados no CSV
-            escritor = csv.writer(arquivo)
+            conversor = csv.writer(arquivo)
             # csv.writerow() grava uma linha, método do objeto csv.writer()
-            escritor.writerow(["Codigo", "Nome", "Idade", "Telefone"])
+            conversor.writerow(["Codigo", "Nome", "Idade", "Telefone"])
 
     while True:
         codigo_cliente = input("Digite o código do cliente: ")
-
-        # se codigo_cliente tem só número
         if codigo_cliente.isdigit():
-            with open("clientes.csv", "r", newline="") as arquivo:
-                # converte cada linha em uma lista
-                conversor = csv.reader(arquivo)
-                # listado, vai para uma variável
-                dados = list(conversor)
+            
+            dados = abrir_arquivo_r("clientes.csv")
 
             codigo_existe = any(codigo[0] == codigo_cliente for codigo in dados[1:])
 
@@ -65,9 +65,7 @@ def cadastrar_clientes():
     while True:
         nome_completo = input("Digite o nome do cliente: ").strip()
         
-        with open("clientes.csv", "r", newline="") as arquivo:
-            conversor = csv.reader(arquivo)
-            dados = list(conversor)
+        dados = abrir_arquivo_r("clientes.csv")
 
         cliente_existe = any(cliente[1].strip().lower() == nome_completo.lower() for cliente in dados[1:])
 
@@ -103,17 +101,9 @@ def cadastrar_clientes():
 def listar_clientes():
     if not os.path.exists("clientes.csv"):
         print("Nenhum cliente cadastrado ainda.")
-        # retorna para menu
         return
 
-    with open("clientes.csv", "r", newline="") as arquivo:
-        conversor = csv.reader(arquivo)
-        dados = list(conversor)
-
-    # len - conta quantas linhas inclusive cabeçalho
-    if len(dados) <= 1:
-        print("Nenhum cliente cadastrado ainda.")
-        return
+    dados = abrir_arquivo_r("clientes.csv")
 
     print("\n--- Lista de Clientes ---\n")
 
@@ -122,19 +112,9 @@ def listar_clientes():
     # tablefmt= - formatação da tabela
     print(tabulate(dados[1:], headers=dados[0], tablefmt="fancy_grid"))
 
-def abrir_arquivo_r(nome_arquivo):
-    with open(nome_arquivo, "r", newline="") as arquivo:
-        escritor = csv.reader(arquivo)
-        dados = list(escritor)
-    if len(dados) <= 1:
-        print("Nenhum cadastro encontrado.")
-        return None
-    print(tabulate(dados[1:], headers=dados[0], tablefmt="fancy_grid"))
-    return dados
-
 def alterar_cliente():
     if not os.path.exists("clientes.csv"):
-        print("Nenhum cliente cadastrado ainda.")
+        print("Nenhum cadastro encontrado.")
         return
 
     while True:
@@ -142,11 +122,7 @@ def alterar_cliente():
 
         if codigo_digitado.isdigit():
             
-            dados = abrir_arquivo_r("cliente.csv")
-            if dados is None:
-                print("Nenhum cliente cadastrado ainda.")
-                return
-            
+            dados = abrir_arquivo_r("clientes.csv")
 
             # None - definido que não foi encontrado nome, tipo uma lista_vazia mas não é uma lista
             nome = None
@@ -160,7 +136,7 @@ def alterar_cliente():
                     break
                 
             if nome is None:
-                print("Código não encontrado.")
+                print("Nenhum cadastro encontrado.")
                 return
             
             novo_nome = input("Digite o novo nome para o cliente: ").strip()
@@ -198,4 +174,6 @@ def alterar_cliente():
 if __name__ == "__main__":
     main.acessar_projeto()
 
-    
+    # proximos passo
+    # fazer abrir arquivo w
+    # fazer abrir aquiro r

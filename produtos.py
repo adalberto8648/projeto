@@ -2,6 +2,7 @@ from tabulate import tabulate
 import csv
 import os
 import main
+import clientes
 
 def menu_produtos():
     while True:
@@ -86,10 +87,9 @@ def alterar_produtos():
         codigo_digitado = input("Digite o código do produto que deseja alterar: ")
 
         if codigo_digitado.isdigit():
-            with open("produtos.csv", "r", newline="") as arquivo:
-                escritor = csv.reader(arquivo)
-                dados = list(escritor)
-            if len(dados) <= 1:
+
+            dados = clientes.abrir_arquivo_r("produtos.csv")
+            if dados is None:
                 print("Nenhum produto cadastrado ainda.")
                 return
             

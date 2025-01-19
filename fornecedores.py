@@ -2,6 +2,7 @@ from tabulate import tabulate
 import csv
 import os
 import main
+import clientes
 
 def menu_fornecedores():
     while True:
@@ -95,11 +96,10 @@ def alterar_fornecedores():
         codigo_digitado = input("Digite o código do fornecedor que deseja alterar: ")
 
         if codigo_digitado.isdigit():
-            with open("fornecedores.csv", "r", newline="") as arquivo:
-                escritor = csv.reader(arquivo)
-                dados = list(escritor)
-            if len(dados) <= 1:
-                print("Nenhum fornecedor cadastrado ainda.")
+            
+            dados = clientes.abrir_arquivo_r("fornecedores.csv")
+            if dados is None:
+                print("Nenhum cliente cadastrado ainda.")
                 return
             
             print(tabulate(dados[1:], headers=dados[0], tablefmt="fancy_grid" ))
