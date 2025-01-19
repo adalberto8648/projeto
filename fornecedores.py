@@ -32,20 +32,16 @@ def cadastrar_fornecedores():
             escritor = csv.writer(arquivo)
             escritor.writerow(["Codigo", "Nome"])
 
+    dados = clientes.abrir_arquivo_r("fornecedores.csv")
+
     while True:
         codigo_fornecedor = input("Digite o código do fornecedor: ")
 
         if codigo_fornecedor.isdigit():
-            with open("fornecedores.csv", "r", newline="") as arquivo:
-                conversor = csv.reader(arquivo)
-                dados = list(conversor)
-
             codigo_existe = any(codigo[0] == codigo_fornecedor for codigo in dados[1:])
-            
             if codigo_existe:
                 print("Código já cadastrado. Digite outro código.")
             else:
-                codigo_fornecedor
                 break
         else:
             print("O código do fornecedor deve conter apenas números.")
@@ -53,12 +49,8 @@ def cadastrar_fornecedores():
     while True:
         nome_fornecedor = input("Digite o nome do fornecedor: ").strip()
 
-        with open("fornecedores.csv", "r", newline="") as arquivo:
-            conversor = csv.reader(arquivo)
-            dados = list(conversor)
-
         fornecedor_existe = any(fornecedor[1].strip().lower() == nome_fornecedor.lower() for fornecedor in dados[1:])
-        
+
         if fornecedor_existe:
             print("Fornecedor já cadastrado. Digite outro fornecedor.")
         elif nome_fornecedor:
@@ -70,46 +62,35 @@ def cadastrar_fornecedores():
         escritor = csv.writer(arquivo)
         escritor.writerow([codigo_fornecedor, nome_fornecedor])        
     print("\nFornecedor cadastrado com sucesso")
-    
+
 def listar_fornecedores():
     if not os.path.exists("fornecedores.csv"):
         print("Nenhum fornecedor cadastrado ainda.")
         return
 
-    with open("fornecedores.csv", "r", newline="") as arquivo:
-        conversor = csv.reader(arquivo)
-        dados = list(conversor)
-
-    if len(dados) <= 1:
-        print("Nenhum fornecedor cadastrado ainda.")
-        return
+    dados = clientes.abrir_arquivo_r("fornecedores.csv")
     
     print("\n--Lista de Fornecedores--\n")
     print(tabulate(dados[1:], headers=dados[0], tablefmt="fancy_grid"))
-       
+
 def alterar_fornecedores():
     if not os.path.exists("fornecedores.csv"):
         print("Nenhum fornecedor cadastrado ainda.")
         return
     
+    dados = clientes.abrir_arquivo_r("fornecedores.csv")
+
     while True:
         codigo_digitado = input("Digite o código do fornecedor que deseja alterar: ")
 
         if codigo_digitado.isdigit():
-            
-            dados = clientes.abrir_arquivo_r("fornecedores.csv")
-            if dados is None:
-                print("Nenhum cliente cadastrado ainda.")
-                return
-            
-            print(tabulate(dados[1:], headers=dados[0], tablefmt="fancy_grid" ))
 
-            nome = None
+            linha_encontrada = None
             for linha, coluna in enumerate(dados[1:], start=1):
                 if coluna[0] == codigo_digitado:
-                    nome = linha
+                    linha_encontrada = linha
                     break
-            if nome is None:
+            if linha_encontrada is None:
                 print("Código não encontrado.")
                 return
             
@@ -118,7 +99,7 @@ def alterar_fornecedores():
                 print("Nenhum nome foi informado. Voltando ao menu principal.")
                 return
 
-            dados[nome][1] = novo_nome
+            dados[linha_encontrada][1] = novo_nome
 
             with open("fornecedores.csv", "w", newline="") as arquivo:
                 escritor = csv.writer(arquivo)
@@ -127,6 +108,6 @@ def alterar_fornecedores():
             break
         else:
             print("O código do fornecedor deve conter apenas números.")
-    
+
 if __name__ == "__main__":
     main.acessar_projeto()
