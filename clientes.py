@@ -173,4 +173,3 @@ if __name__ == "__main__":
 
     # proximos passo
     # fazer abrir arquivo w
-    # fazer abrir aquiro r
