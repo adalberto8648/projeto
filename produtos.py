@@ -31,27 +31,23 @@ def cadastrar_produtos():
             escritor = csv.writer(arquivo)
             escritor.writerow(["Codigo", "Produto"])
 
+    dados = clientes.abrir_arquivo_r("produtos.csv")
+    
     while True:
         codigo_produto = input("Digite o código do produto: ")
-
         if codigo_produto.isdigit():
-            with open("produtos.csv", "r", newline="") as arquivo:
-                conversor = csv.reader(arquivo)
-                dados = list(conversor)
 
             codigo_existe = any(codigo[0] == codigo_produto for codigo in dados[1:])
             
             if codigo_existe:
                 print("Código já cadastrado. Digite outro código.")
             else:
-                codigo_produto
                 break
         else:
             print("O código do produto deve conter apenas números.")
 
     while True:
         nome_produto = input("Digite o nome do produto: ").strip()
-
         if nome_produto:
             break
         else:
@@ -67,15 +63,9 @@ def listar_produtos():
         print("Nenhum produto cadastrado ainda.")
         return
     
-    with open("produtos.csv", "r", newline="") as arquivo:
-        conversor = csv.reader(arquivo)
-        dados = list(conversor)
-
-    if len(dados) <= 1:
-        print("Nenhum produto cadastrado ainda.")
-        return
+    dados = clientes.abrir_arquivo_r("produtos.csv")
     
-    print("\n----- Lista de produtos -----")
+    print("\n----- Lista de produtos -----\n")
     print(tabulate(dados[1:], headers=dados[0], tablefmt="fancy_grid"))
 
 def alterar_produtos():
@@ -83,31 +73,28 @@ def alterar_produtos():
         print("Nenhum produto cadastrado ainda.")
         return
     
+    dados = clientes.abrir_arquivo_r("produtos.csv")
+
     while True:
         codigo_digitado = input("Digite o código do produto que deseja alterar: ")
 
         if codigo_digitado.isdigit():
-
-            dados = clientes.abrir_arquivo_r("produtos.csv")
-            if dados is None:
-                print("Nenhum produto cadastrado ainda.")
-                return
             
             print(tabulate(dados[1:], headers=dados[0], tablefmt="fancy_grid"))
 
-            nome = None
+            linha_encontrada = None
             for linha, coluna in enumerate(dados[1:], start=1):
                 if coluna[0] == codigo_digitado:
-                    nome = linha
+                    linha_encontrada = linha
                     break
             
-            if nome is None:
+            if linha_encontrada is None:
                 print("Código não encontrado.")
                 return
             
             novo_nome = input("Digite o novo nome para o produto: ").strip()
 
-            dados[nome][1] = novo_nome
+            dados[linha_encontrada][1] = novo_nome
 
             with open("produtos.csv", "w", newline="") as arquivo:
                 escritor = csv.writer(arquivo)

@@ -57,7 +57,6 @@ def cadastrar_clientes():
             if codigo_existe:
                 print("Código já cadastrado. Digite outro código.")
             else:
-                codigo_cliente
                 break
         else:
             print("O código do cliente deve conter apenas números.")
